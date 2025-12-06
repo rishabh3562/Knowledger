@@ -35,17 +35,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data: block, error } = await supabase
-      .from('blocks')
-      .insert({
-        chapter_id,
-        type,
-        content: content || null,
-        file_url: file_url || null,
-        position,
-      })
-      .select()
-      .single()
+    // @ts-ignore - Supabase SSR type inference issue
+    const { data: block, error } = await supabase.from('blocks').insert({ chapter_id, type, content: content || null, file_url: file_url || null, position }).select().single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })

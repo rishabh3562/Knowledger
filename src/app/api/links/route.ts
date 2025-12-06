@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json([])
     }
 
-    const chapterIds = chapters.map(c => c.id)
+    const chapterIds = (chapters as any[]).map((c: any) => c.id)
 
     // Get all links where from_chapter is owned by user
     const { data: links, error } = await supabase
@@ -82,14 +82,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data: link, error } = await supabase
-      .from('links')
-      .insert({
-        from_chapter,
-        to_chapter,
-      })
-      .select()
-      .single()
+    // @ts-ignore - Supabase SSR type inference issue
+    const { data: link, error } = await supabase.from('links').insert({ from_chapter, to_chapter }).select().single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
@@ -134,7 +128,7 @@ export async function DELETE(request: NextRequest) {
     const { data: chapter } = await supabase
       .from('chapters')
       .select('id')
-      .eq('id', link.from_chapter)
+      .eq('id', (link as any).from_chapter)
       .eq('user_id', user.id)
       .single()
 

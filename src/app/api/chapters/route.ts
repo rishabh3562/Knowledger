@@ -58,17 +58,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data: chapter, error } = await supabase
-      .from('chapters')
-      .insert({
-        user_id: user.id,
-        title,
-        summary,
-        tags: tags || [],
-        cover_image: cover_image || null,
-      })
-      .select()
-      .single()
+    // @ts-ignore - Supabase SSR type inference issue
+    const { data: chapter, error } = await supabase.from('chapters').insert({ user_id: user.id, title, summary, tags: tags || [], cover_image: cover_image || null }).select().single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })

@@ -34,7 +34,7 @@ export async function GET(
       return NextResponse.json({ error: blocksError.message }, { status: 500 })
     }
 
-    return NextResponse.json({ ...chapter, blocks })
+    return NextResponse.json({ ...(chapter as any), blocks })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -58,18 +58,14 @@ export async function PATCH(
     const body = await request.json()
     const { title, summary, tags, cover_image } = body
 
-    const { data: chapter, error } = await supabase
-      .from('chapters')
-      .update({
-        ...(title && { title }),
-        ...(summary && { summary }),
-        ...(tags && { tags }),
-        ...(cover_image !== undefined && { cover_image }),
-      })
-      .eq('id', params.id)
-      .eq('user_id', user.id)
-      .select()
-      .single()
+    const updateData: any = {}
+    if (title) updateData.title = title
+    if (summary) updateData.summary = summary
+    if (tags) updateData.tags = tags
+    if (cover_image !== undefined) updateData.cover_image = cover_image
+
+    // @ts-ignore - Supabase SSR type inference issue
+    const { data: chapter, error } = await supabase.from('chapters').update(updateData).eq('id', params.id).eq('user_id', user.id).select().single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })

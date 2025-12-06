@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/auth'
 
+type BlockWithChapterId = {
+  chapter_id: string
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -17,13 +21,13 @@ export async function PATCH(
     const { type, content, file_url, position } = body
 
     // Verify user owns the block via chapter
-    const { data: existingBlock } = await supabase
+    const { data: existingBlock, error: blockError } = await supabase
       .from('blocks')
       .select('chapter_id')
       .eq('id', params.id)
-      .single()
+      .single<BlockWithChapterId>()
 
-    if (!existingBlock) {
+    if (blockError || !existingBlock) {
       return NextResponse.json({ error: 'Block not found' }, { status: 404 })
     }
 
@@ -38,17 +42,14 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
-    const { data: block, error } = await supabase
-      .from('blocks')
-      .update({
-        ...(type && { type }),
-        ...(content !== undefined && { content }),
-        ...(file_url !== undefined && { file_url }),
-        ...(position !== undefined && { position }),
-      })
-      .eq('id', params.id)
-      .select()
-      .single()
+    const updateData: any = {}
+    if (type) updateData.type = type
+    if (content !== undefined) updateData.content = content
+    if (file_url !== undefined) updateData.file_url = file_url
+    if (position !== undefined) updateData.position = position
+
+    // @ts-ignore - Supabase SSR type inference issue
+    const { data: block, error } = await supabase.from('blocks').update(updateData).eq('id', params.id).select().single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
@@ -76,13 +77,13 @@ export async function DELETE(
     }
 
     // Verify user owns the block via chapter
-    const { data: existingBlock } = await supabase
+    const { data: existingBlock, error: blockError } = await supabase
       .from('blocks')
       .select('chapter_id')
       .eq('id', params.id)
-      .single()
+      .single<BlockWithChapterId>()
 
-    if (!existingBlock) {
+    if (blockError || !existingBlock) {
       return NextResponse.json({ error: 'Block not found' }, { status: 404 })
     }
 
