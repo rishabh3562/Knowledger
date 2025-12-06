@@ -1,64 +1,112 @@
-# Knowledger
+<div align="center">
 
-Your Personal Knowledge Hub - Organize your learning into unified chapters.
+# 📚 Knowledger
 
-## Features
+**Your Personal Knowledge Hub**
 
-- Create chapters to organize your knowledge
-- Add multiple types of content blocks:
-  - Text notes
-  - Code snippets
-  - Images and handwritten notes
-  - PDF documents
-  - External links
-- Link chapters together to create a knowledge graph
-- Search across all your content
-- Visualize connections with React Flow
+Organize everything you learn into unified, searchable chapters with rich content blocks and visual knowledge mapping.
 
-## Tech Stack
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-green?style=for-the-badge&logo=supabase)](https://supabase.com/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38bdf8?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-- **Framework**: Next.js 14 (App Router)
-- **Database**: Supabase (PostgreSQL)
-- **Authentication**: Supabase Auth
-- **Storage**: Supabase Storage
-- **UI**: Shadcn UI + Tailwind CSS
-- **Drag & Drop**: @dnd-kit
-- **Knowledge Graph**: React Flow
-- **State Management**: TanStack Query
+[Demo](https://knowledger.vercel.app) • [Report Bug](https://github.com/rishabh3562/Knowledger/issues) • [Request Feature](https://github.com/rishabh3562/Knowledger/issues)
 
-## Getting Started
+</div>
+
+---
+
+## ✨ Features
+
+### 📖 Chapter Management
+- Create unlimited chapters to organize your knowledge
+- Add titles, summaries, and tags for easy categorization
+- Search across all chapters in real-time
+
+### 🧩 Rich Content Blocks
+- **📝 Text Blocks**: Write notes, explanations, or documentation
+- **💻 Code Blocks**: Add syntax-highlighted code snippets with copy functionality
+- **🖼️ Image Blocks**: Upload images or handwritten notes (up to 10MB)
+- **📄 PDF Blocks**: Attach PDF documents (up to 50MB)
+- **🔗 Link Blocks**: Reference external resources (docs, GitHub, videos)
+
+### 🔄 Drag & Drop Interface
+- Reorder content blocks with smooth drag-and-drop
+- Real-time position updates
+- Intuitive block management
+
+### 🕸️ Knowledge Graph
+- Visualize connections between chapters
+- Interactive graph with React Flow
+- Click nodes to navigate between chapters
+- Create links by dragging between nodes
+
+### 🔐 Secure & Personal
+- Email/password authentication via Supabase Auth
+- Row Level Security (RLS) ensures your data is private
+- User-specific file storage
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| **Framework** | Next.js 14 (App Router) |
+| **Language** | TypeScript |
+| **Database** | Supabase (PostgreSQL) |
+| **Authentication** | Supabase Auth |
+| **File Storage** | Supabase Storage |
+| **UI Library** | Shadcn UI + Tailwind CSS |
+| **Drag & Drop** | @dnd-kit |
+| **Graph Visualization** | React Flow |
+| **State Management** | TanStack Query |
+| **Deployment** | Vercel |
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- A Supabase account
+- Node.js 18+ and npm
+- A [Supabase](https://supabase.com) account (free tier works)
 
-### Setup
+### Installation
 
-1. Clone the repository
-2. Install dependencies:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/rishabh3562/Knowledger.git
+   cd Knowledger
+   ```
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. Set up Supabase:
-   - Create a new Supabase project at [supabase.com](https://supabase.com)
-   - Run the migration file in `supabase/migrations/20240101000000_initial_schema.sql` in the Supabase SQL editor
+3. **Set up Supabase**
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Go to SQL Editor and run the migration:
+     - Copy contents from `supabase/migrations/20240101000000_initial_schema.sql`
+     - Paste and execute in Supabase SQL Editor
 
-4. Configure environment variables:
-   - Copy `.env.local.example` to `.env.local`
-   - Add your Supabase credentials:
-     ```
-     NEXT_PUBLIC_SUPABASE_URL=your-project-url.supabase.co
-     NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-     ```
+4. **Configure environment variables**
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-5. Run the development server:
+   Update `.env.local` with your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your-project-url.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   ```
+
+5. **Run the development server**
    ```bash
    npm run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000)
+6. **Open your browser**
+
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 
@@ -91,48 +139,77 @@ src/
 - **blocks**: Content blocks within chapters
 - **links**: Connections between chapters for the knowledge graph
 
-## Features Status
+## 📖 Usage
 
-- [x] Project setup with Next.js 14 + TypeScript
-- [x] Database schema with Supabase
-- [x] Authentication with Supabase Auth
-- [x] Chapter CRUD operations
-- [x] Block management with drag-and-drop
-- [x] File uploads (images and PDFs)
-- [x] Search functionality
-- [x] Knowledge graph visualization
+1. **Sign up** at `/auth` with your email and password
+2. **Create a chapter** by clicking "Create Chapter"
+3. **Add content blocks** - text, code, images, PDFs, or links
+4. **Organize with tags** for easy searching
+5. **Link chapters** together in the Knowledge Graph
+6. **Search** across all your content instantly
 
-## Usage Guide
+## 🗂️ Project Structure
 
-### Creating Your First Chapter
+```
+Knowledger/
+├── src/
+│   ├── app/
+│   │   ├── api/              # API routes (chapters, blocks, links, upload)
+│   │   ├── auth/             # Authentication page
+│   │   ├── chapters/         # Chapter pages (list, create, [id])
+│   │   ├── graph/            # Knowledge graph visualization
+│   │   └── layout.tsx        # Root layout with providers
+│   ├── components/
+│   │   ├── editor/           # Block components (Text, Code, Image, PDF, Link)
+│   │   ├── ui/               # Shadcn UI components
+│   │   ├── FileUpload.tsx    # File upload component
+│   │   └── KnowledgeGraph.tsx # React Flow graph
+│   └── lib/
+│       ├── auth.ts           # Server-side auth utilities
+│       ├── supabase.ts       # Supabase client & types
+│       └── utils.ts          # Helper functions
+├── supabase/
+│   └── migrations/           # Database schema
+└── public/                   # Static assets
+```
 
-1. Sign up at `/auth` with your email and password
-2. Click "Create Chapter" on the dashboard
-3. Fill in the title, summary, and tags
-4. Start adding content blocks (text, code, images, PDFs, links)
+## 🌟 Roadmap
 
-### Adding Content Blocks
+- [ ] Rich text editor (WYSIWYG)
+- [ ] Markdown support
+- [ ] Export chapters as PDF/Markdown
+- [ ] Mobile app
+- [ ] Collaboration features
+- [ ] AI-powered summaries
+- [ ] OCR for handwritten notes
+- [ ] Browser extension
 
-Chapters support 5 types of content blocks:
+## 🤝 Contributing
 
-- **Text**: Write notes, explanations, or documentation
-- **Code**: Add code snippets with syntax highlighting
-- **Image**: Upload images or handwritten notes
-- **PDF**: Attach PDF documents
-- **Link**: Add external references (docs, GitHub, videos)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Organizing with Tags
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Use tags to categorize your chapters. Tags are searchable and help you find related content quickly.
+## 📄 License
 
-### Knowledge Graph
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Access the Knowledge Graph from the dashboard to visualize connections between your chapters. Click and drag between nodes to create links, and click on any node to navigate to that chapter.
+## 👤 Author
 
-### Search
+**Rishabh Dubey**
 
-Use the search bar on the dashboard to find chapters by title, summary, or tags.
+- GitHub: [@rishabh3562](https://github.com/rishabh3562)
 
-## License
+## ⭐ Show your support
 
-MIT
+Give a ⭐️ if this project helped you!
+
+---
+
+<div align="center">
+Made with ❤️ by Rishabh Dubey
+</div>
