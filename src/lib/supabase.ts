@@ -89,6 +89,32 @@ export type Database = {
           created_at?: string
         }
       }
+      keepalive_logs: {
+        Row: {
+          id: string
+          pinged_at: string
+          status: string
+          response_time_ms: number | null
+          error_message: string | null
+          metadata: any | null
+        }
+        Insert: {
+          id?: string
+          pinged_at?: string
+          status?: string
+          response_time_ms?: number | null
+          error_message?: string | null
+          metadata?: any | null
+        }
+        Update: {
+          id?: string
+          pinged_at?: string
+          status?: string
+          response_time_ms?: number | null
+          error_message?: string | null
+          metadata?: any | null
+        }
+      }
     }
   }
 }
